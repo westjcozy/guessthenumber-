@@ -10,55 +10,59 @@
 // 유저가 1~100 범위 밖에 숫자를 입력하면, 알려준다. 기회를 깎지 않는다
 // 유저가 이미 입력한 숫자를 또 입력하면, 알려준다. 기회를 깎지 않는다
 
+// 변수 호출
 let computerNum = 0;
 let playButton = document.getElementById("play-button");
 let userInput = document.getElementById("user-input");
-let resultArea = document.getElementById("result-area");
 let resetButton = document.getElementById("reset-button");
+let resultArea = document.getElementById("result-area");
+let chanceArea = document.getElementById("chance-area");
 let chances = 5;
 let gameOver = false;
-let chanceArea = document.getElementById("chance-area");
 let history = [];
 
+// 이벤트 발생
 playButton.addEventListener("click", play);
 resetButton.addEventListener("click", reset);
 userInput.addEventListener("focus", function () {
   userInput.value = "";
 });
-
+// 정답 호출(랜덤 번호 생성)
 function pickRandomNumber() {
   computerNum = Math.floor(Math.random() * 100) + 1;
   console.log("answer", computerNum);
 }
-
+/* play */
 function play() {
-  let userValue = userInput.value;
-
+  let userValue = userInput.value; // 유저의 값의 유저가 입력한 값과 같다
+  // 1과 100사이의 숫자만 입력
   if (userValue < 1 || userValue > 100) {
-    resultArea.textContent = "Please Enter the Number between 1 and 100";
+    resultArea.textContent = "Please Enter the Number Between 1 and 100";
     return;
   }
-
+  //똑같은 숫자를 입력시 다시 입력 안내
   if (history.includes(userValue)) {
     resultArea.textContent = "You've already entered this number. Enter again";
     return;
   }
 
-  chances--;
-  chanceArea.textContent = `Chances left: ${chances} left`;
+  //chances
+  chances--; // chance는 1씩 사라짐
+  chanceArea.textContent = `Chances left ${chances} left`;
   console.log("chance", chances);
 
+  //결과값 안내
   if (userValue < computerNum) {
-    resultArea.textContent = "Up!!!";
+    resultArea.textContent = "Up";
   } else if (userValue > computerNum) {
-    resultArea.textContent = "Down!!!";
+    resultArea.textContent = "Down";
   } else {
-    resultArea.textContent = "Correct!!!👏🏻";
+    resultArea.textContent = "Correct";
     gameOver = true;
   }
-
+  //하나씩 입력할때마다 배열 +1 증가
   history.push(userValue);
-
+  // 게임 종료
   if (chances < 1) {
     gameOver = true;
   }
@@ -66,17 +70,13 @@ function play() {
     playButton.disabled = true;
   }
 }
-
+// 리셋
 function reset() {
-  //user input창이 꺠끗하게 정리되고
   userInput.value = "";
-  //새로운 번호가 생성되고
   pickRandomNumber();
   resultArea.textContent = "Here is the result";
-  chances = 5;
-  chanceArea.textContent = `Chances left: ${chances} left`;
-  history = [];
   gameOver = false;
   playButton.disabled = false;
 }
+
 pickRandomNumber();
