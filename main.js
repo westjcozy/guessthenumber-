@@ -48,7 +48,7 @@ function play() {
 
   //chances
   chances--; // chance는 1씩 사라짐
-  chanceArea.textContent = `Chances left ${chances} left`;
+  chanceArea.textContent = `Chances left: ${chances} left`;
   console.log("chance", chances);
 
   //결과값 안내
